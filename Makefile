@@ -11,3 +11,6 @@ export:
 
 open:
 	open mandel.png
+
+perf:
+	time make export
