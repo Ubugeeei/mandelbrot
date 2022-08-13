@@ -14,7 +14,9 @@ fn mandelbrot(c: Complex<f64>, lim: usize) -> Option<usize> {
     None
 }
 
-/// parse cli args
+/**
+ * parse cli args 
+*/
 fn parse_pair<T: FromStr>(s: &str, separator: char) -> Option<(T, T)> {
     match s.find(separator) {
         None => None,
@@ -24,7 +26,6 @@ fn parse_pair<T: FromStr>(s: &str, separator: char) -> Option<(T, T)> {
         },
     }
 }
-
 /// Parse a pair of floating-point numbers separated by a comma as a complex number.
 fn parse_complex(s: &str) -> Option<Complex<f64>> {
     match parse_pair(s, ',') {
