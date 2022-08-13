@@ -1,5 +1,10 @@
 use num::Complex;
+use std::fs::File;
 use std::str::FromStr;
+
+extern crate image;
+use image::png::PNGEncoder;
+use image::ColorType;
 
 fn main() {}
 
@@ -16,7 +21,7 @@ fn mandelbrot(c: Complex<f64>, lim: usize) -> Option<usize> {
 
 /**
  *
- * parse cli args 
+ * parse cli args
  *
  */
 
@@ -39,10 +44,29 @@ fn parse_complex(s: &str) -> Option<Complex<f64>> {
 }
 
 /**
- * 
+ *
  * drawing
- * 
+ *
  */
+
+fn write_image(
+    filename: &str,
+    pixels: &[u8],
+    bounds: (usize, usize),
+) -> Result<(), image::ImageError> {
+    let output = File::create(filename)?;
+
+    let encoder = PNGEncoder::new(output);
+    let result = encoder.encode(&pixels, bounds.0 as u32, bounds.1 as u32, ColorType::Gray(8));
+    match result {
+        Ok(()) => {
+            return Ok(());
+        }
+        Err(e) => {
+            return Err(image::ImageError::IoError(e));
+        }
+    }
+}
 
 fn render(
     pixels: &mut [u8],
